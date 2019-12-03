@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 
 //I have changed the aim of this tutorial to make it more extensive as a more profound review
 // on cgi,c and to help with the last assignment + finals prep.
@@ -31,19 +32,24 @@ int main(){
     //I am transmitting data using "get" hence
     //the input from the user will be in the QUERY_STRING environment variable 
     // in the format "name_input=nameofuser&message_input=messagefromuser"
-    printf("<input type='hidden' name='gold' value='10'>");
+    
+    int gold=10;//will reset later (if query string doesnt have gold leave as it is else update)
+
     char* input=  (getenv("QUERY_STRING")); 
     //since it follows a format conveniently delimited by "&" and "=", we will make use
     //of strtok to extract the fields
     char* token = strtok(input, "=&");
     char * field[4];
     int i=0;
+    int counter;
     //int coins=10;
     while (token!= NULL){
         field[i]=token;
         token=strtok(NULL,"=&");
         i++;
     }
+    counter=i-1;
+
     //at this point, 
     // field[4] = {"name_input","actualnameofuser","message_input","actualmessagefromuser"}
 
@@ -51,6 +57,8 @@ int main(){
     printf("Content-Type:text/html\n\n");
     printf("<html>");
     printf("<body><center>");
+    printf("<form name=\"input\" action=\"https://www.cs.mcgill.ca/~ohussa/cgi-bin/addgold.cgi\" method=\"get\">");//need subit button instead of link
+    //printf("<input type='hidden' name='gold' value='10'>");
 
     //Opening the file
     FILE *fp = fopen("cgi.txt","a");
@@ -68,45 +76,64 @@ int main(){
 
         //Appending the record to the textfile cgi.txt
         fprintf(fp,"%s has sent you the message '%s' on %s", field[1],field[3], timeinfo);
+        // for (int i = 0; i < 4 ; i++)
+        // {
+        	
+        // 	printf("the field is %s\n", field[i]); 
+        // }
         fclose(fp);
+
 
         //printing back to the browser that addition of the record to the database has been successful
         printf("Successfully saved your input to database<br/>");
+        for (int i = 0; i <=counter; i++)
+        {
+        	printf("field[%d] is %s", i,field[i]);
+        
+        }
 
     }
     
 
     //Printing back the data input back to the user
-    if(strcmp(field[1],"206")==0){// && coins==90
+    if((strcmp(field[1],"206")==0) && (gold==90)){// && coins==90
     	printf("<h1>Correct answer</h1>");
+    	//printf("<br/><a href='./addgold.cgi'>Click Here to go back</a>");//change to submit button
     	printf("<h1>You Won !</h1>");
     }
-    else if(strcmp(field[1],"206")==0){
+    else if((strcmp(field[1],"206")==0) && (gold<90)){
+    	printf("<h1>Correct answer</h1>");
+    	gold=gold+10;
+    	printf("<input type=\"submit\" value=\"Press Here to go back\">");
+    	//printf("<br/><a href='./addgold.cgi'>Click Here to go back</a>"); 
+    }
+    /*else if(strcmp(field[1],"206")==0){
     	printf("%s", field[1]);
     	printf("<h1>Correct answer</h1>");
     	//coins=coins+10;
     	printf("<br/>You receive 10 gold. But your journey is not over!");
     	printf("<br/><a href='..'>Click Here to go back</a>");
-    }
+    }*/
     else if (strcmp(field[1],"NORTH")==0){
-    	printf("<br/><a href='https://www.cs.mcgill.ca/~lmolli/cgi-bin/addgold.cgi?gold=%d'>Click Here to go NORTH</a>",coins);
+    	printf("<br/><a href='https://www.cs.mcgill.ca/~lmolli/'>Click Here to go NORTH</a>");
 
     }
     else if (strcmp(field[1],"SOUTH")==0){
-    	printf("<br/><a href='https://www.cs.mcgill.ca/~ababs/cgi-bin/addgold.cgi?gold=%d'>Click Here to go SOUTH</a>",coins);
+    	printf("<br/><a href='https://www.cs.mcgill.ca/~ababs/'>Click Here to go SOUTH</a>");
 
     }
     else if (strcmp(field[1],"EAST")==0){
-    	printf("<br/><a href='https://www.cs.mcgill.ca/~afranc40/cgi-bin/addgold.cgi?gold=%d'>Click Here to go EAST</a>",coins);
+    	printf("<br/><a href='https://www.cs.mcgill.ca/~afranc40/'>Click Here to go EAST</a>");
 
     }
     else if (strcmp(field[1],"WEST")==0){
-    	printf("<br/><a href='https://cs.mcgill.ca/~yteng1/cgi-bin/addgold.cgi?gold=%d'>Click Here to go WEST</a>",coins);
+    	printf("<br/><a href='https://cs.mcgill.ca/~yteng1/'>Click Here to go WEST</a>");
 
     }
     else if(strcmp(field[1],"GOLD")==0){
-    	printf("<br/>You have %d gold coins.",coins);
-    	printf("<br/><a href='https://cs.mcgill.ca/~ohussa/cgi-bin/addgold.cgi?gold=%d'>Click Here to go back</a>",coins);
+    	printf("<input type='hidden' name='gold' value='10'>");
+    	printf("<br/>You have  gold coins.");
+    	printf("<br/><a href='..'>Click Here to go back</a>");
     }
     else{
     	/*if(coins==5){
@@ -123,7 +150,7 @@ int main(){
     	    //coins=coins-5;
     		printf("<br/>You have lost 5 gold coins. But you have not lost yet1");
     		//printf("<br/><a href='https://cs.mcgill.ca/~ohussa/cgi-bin/addgold.cgi?gold=%d''>Click Here to go back</a>",coins);
-    		printf("<br/><a href='..'>Click Here to go back</a>",coins);
+    		printf("<br/><a href='..'>Click Here to go back</a>");
 
     	//}
     	
@@ -137,7 +164,7 @@ int main(){
     // then we are in the directory cgi-bin and we only need to go back to the parent to reach the original page
     // "https://www.cs.mcgill.ca/~rkurma1"
     // Hence the hyperlink is just ".."
-    printf("<br/><a href='..'>Click Here to go back</a>");
+    printf("</form>");
     printf("</center></body>");
     printf("</html>");
     return 0;
