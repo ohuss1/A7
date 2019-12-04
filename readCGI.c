@@ -78,15 +78,15 @@ int main(void) {
 
 	    }
 	    else if (strcmp(field[1],"SOUTH")==0){
-	    	printf("<br/><a href='https://www.cs.mcgill.ca/~ababs/'>Click Here to go SOUTH</a>");
+	    	printf("<br/><a href='https://www.cs.mcgill.ca/~ababs/cgi-bin/addgold.cgi?gold=%d'>Click Here to go SOUTH</a>",gold);
 
 	    }
 	    else if (strcmp(field[1],"EAST")==0){
-	    	printf("<br/><a href='https://www.cs.mcgill.ca/~afranc40/'>Click Here to go EAST</a>");
+	    	printf("<br/><a href='https://www.cs.mcgill.ca/~afranc40/cgi-bin/addgold.cgi?gold=%d'>Click Here to go EAST</a>",gold);
 
 	    }
 	    else if (strcmp(field[1],"WEST")==0){
-	    	printf("<br/><a href='https://cs.mcgill.ca/~yteng1/'>Click Here to go WEST</a>");
+	    	printf("<br/><a href='https://cs.mcgill.ca/~yteng1/cgi-bin/addgold.cgi?gold=%d'>Click Here to go WEST</a>",gold);
 
 	    }
 	    else if(strcmp(field[1],"GOLD")==0){
