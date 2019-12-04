@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-int main()
+int main()//testing
 {
 	 char* input=  (getenv("QUERY_STRING"));
 	 char* token = strtok(input, "=&");
