@@ -38,7 +38,7 @@ int main(void) {
 	        char * timeinfo;
 	        current_time = time(NULL);
 	        timeinfo = ctime(&current_time);
-	        fprintf(fp,"%s has sent you the message '%s' on %s", field[1],field[3], timeinfo);
+	        //fprintf(fp,"%s has sent you the message '%s' on %s", field[1],field[3], timeinfo);
 
 	        fclose(fp);
 	    }
@@ -60,7 +60,7 @@ int main(void) {
 	        if(strstr(field[2],"gold")!=NULL){
 
 	        		gold=atoi(field[3]);
-	    		if((strcmp(field[1],"206")==0) && (gold==90)){// && coins==90
+	    		if((strcmp(field[1],"206")==0) && (gold>=90)){// && coins==90
 	    	    printf("<h1>Correct answer</h1>");
 	    	gold=gold+10;
 	    	//printf("<br/><a href='./addgold.cgi'>Click Here to go back</a>");//change to submit button
@@ -90,14 +90,34 @@ int main(void) {
 
 	    }
 	    else if(strcmp(field[1],"GOLD")==0){
-	    	printf("<input type='hidden' name='gold' value='10'>");
-	    	printf("<br/>You have  gold coins.");
-	    	printf("<br/><a href='..'>Click Here to go back</a>");
+	    	//printf("<input type='hidden' name='gold' value='10'>");
+	    	printf("<input type='hidden' name='gold' value='%d'>", gold);
+	    	printf("<br/>You have %d Gold coins.",gold);
+	    	printf("<input type=\"submit\" value=\"Press Here to go back\">");
 	    }
 	    else{
-	    		printf("<h1>Incorrect answer</h1>");
-	    		printf("<br/>You have lost 5 gold coins. But you have not lost yet1");
-	    		printf("<br/><a href='..'>Click Here to go back</a>");
+	    	if((gold<=5)){
+	    		                                printf("<h1>Incorrect answer YOU LOST</h1>");
+	    			    			    		printf("<br/>You have lost 5 gold coins.");
+	    			    			    		gold=gold-5;
+	    			    			    		printf("<input type='hidden' name='gold' value='%d'>", gold);
+
+
+	    	}
+	    	else{
+	    		                printf("<h1>Incorrect answer</h1>");
+	    			    		printf("<br/>You have lost 5 gold coins. But you have not lost yet1");
+	    			    		gold=gold-5;
+	    			    		printf("<input type='hidden' name='gold' value='%d'>", gold);
+	    			    		printf("<input type=\"submit\" value=\"Press Here to go back\">");
+
+	    	}
+//	    		printf("<h1>Incorrect answer</h1>");
+//	    		printf("<br/>You have lost 5 gold coins. But you have not lost yet1");
+//	    		gold=gold-5;
+//	    		printf("<input type='hidden' name='gold' value='%d'>", gold);
+//	    		printf("<input type=\"submit\" value=\"Press Here to go back\">");
+	    		//printf("<br/><a href='..'>Click Here to go back</a>");
 	    }
 
 	        	}
@@ -112,7 +132,7 @@ int main(void) {
 	        	else if((strstr(field[1],"206")!=NULL) && (gold<90)){
 	        		printf("<h1>Correct answer</h1>");
 	        		gold=gold+10;
-	        		printf("<input type='hidden' name='gold' value='10'>");
+	        		printf("<input type='hidden' name='gold' value='%d'>",gold);
 	        		printf("<input type=\"submit\" value=\"Press Here to go back\">");
 	        	}
 				else if(strcmp(field[1],"NORTH")==0){
@@ -129,14 +149,15 @@ int main(void) {
 				}
 				else if(strcmp(field[1],"GOLD")==0){
 					printf("<input type='hidden' name='gold' value='10'>");
-					printf("<br/>You have  gold coins.");
+					printf("<br/>You have 10 gold coins.");
 					printf("<br/><a href='..'>Click Here to go back</a>");
 				}
 				else{
 					printf("<h1>Incorrect answer</h1>");
 					printf("<br/>You have lost 5 gold coins. But you have not lost yet1");
 					gold=gold-5;
-					printf("<br/><a href='..'>Click Here to go back</a>");
+					printf("<input type='hidden' name='gold' value='%d'>", gold);
+					printf("<input type=\"submit\" value=\"Press Here to go back\">");
 				}
 				//printf("<form name=\"input\" action=\"https://www.cs.mcgill.ca/~ohussa/cgi-bin/addgold.cgi?%d\" method=\"get\">",gold);
 
