@@ -39,6 +39,16 @@ int main(void) {
 	        current_time = time(NULL);
 	        timeinfo = ctime(&current_time);
 	        //fprintf(fp,"%s has sent you the message '%s' on %s", field[1],field[3], timeinfo);
+			//fprintf(fp,"the entered field0 is %s field1 was %s field 2 was %s field 3 was %s at time %s", field[0],field[1],field[2],field[3],timeinfo);
+			if(counter>3){
+			fprintf(fp,"\n the entered field0 is %s, Entered answer:%s,Gold:%s at time %s \n", field[0],field[1],field[3],timeinfo);
+			
+			}
+			else{
+			fprintf(fp,"\n the entered field0 is %s \n Entered answer:%s \n Gold:10(game start) \n login time %s \n", field[0],field[1],timeinfo);
+			
+			}
+			//fprintf(fp,"the entered field0 is %s, Entered answer:%s,Gold:%s at time %s", field[0],field[1],field[3],timeinfo);
 
 	        fclose(fp);
 	    }
@@ -49,12 +59,12 @@ int main(void) {
 	    printf("<html>");
 	    printf("<body><center>");
 	    printf("<form name=\"input\" action=\"https://www.cs.mcgill.ca/~ohussa/cgi-bin/addgold.cgi\" method=\"get\">");
-	    printf("Successfully saved your input to database<br/>");
+	    //printf("Successfully saved your input to database<br/>");
 	    for (int i = 0; i <counter-1; i++)
 	        {
-	        	printf("field[%d] is %s", i,field[i]);
+	        	//printf("field[%d] is %s", i,field[i]);
 	        }
-	    printf("counter -2 is %d",(counter));
+	    //printf("counter -2 is %d",(counter));
 	    if(counter-2>=2){
 	    	//printf("entered gold if");
 	        if(strstr(field[2],"gold")!=NULL){
@@ -123,7 +133,7 @@ int main(void) {
 	        	}
 	        }
 	        else{
-	        	printf("in else hooray");
+	        	//printf("in else hooray");
 	        	if((strcmp(field[1],"206")==0) && (gold==90)){
 
 	        		printf("<h1>Correct answer</h1>");
